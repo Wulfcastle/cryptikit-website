@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     <meta charset="utf-8" />
+
+     <title>Installation - CryptiKit </title>
+
+     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+     <link rel="stylesheet" href="css/main.css" />
+     <!--[if lte IE 8]>
+      <script type="text/javascript" src="js/lib/modernizer.js" charset="utf-8"></script>
+    <![endif]-->
+    
+   </head>
+
+   <body class="samples">
+
+
+     <header class="header" style="background:#55b070">
+       <h1><a href="index.html">CryptiKit </a></h1>
+       <ul class="nav section-samples">
+         <li><a class="nav-home nav-item" href="index.html">Overview </a></li>
+         <li><a class="nav-help nav-item" href="installation.html">How to Install </a></li>
+         <li><a class="nav-release-notes nav-item" href="about.html">About </a></li>
+           <li><a class="nav-release-notes nav-item" href="https://github.com/karmacoma/cryptikit/releases">Release Notes </a></li>
+       </ul>
+     </header>
+
+ <div id="page">
+   <div class="column main">
+     
+
+
+<div class="section">
+<div class="section-header"><h2>Installing CryptiKit</h2></div>
+
+<ul class="task-list">
+<li>
+<p>Download the latest stable release:</p>
+
+<p><a href="https://github.com/karmacoma/cryptikit/releases/latest">https://github.com/karmacoma/cryptikit/releases/latest</a></p>
+</li>
+<li><p>Run the automated install script. Tested on Ubuntu 14.04 LTS and OS-X Yosemite.</p></li>
+</ul>
+
+<pre><code>cd cryptikit
+. install.sh
+</code></pre>
+
+<blockquote>
+<p>NOTE:
+This will install homebrew (on OS-X), ruby (rvm) plus a few application dependencies.</p>
+</blockquote>
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Updating CryptiKit</h2></div>
+
+<ul class="task-list">
+<li>To update an existing installation to the latest stable release:</li>
+</ul>
+
+<pre><code>cd cryptikit
+. update.sh
+</code></pre>
+
+<blockquote>
+<p>NOTE:
+The existing configuration file will be copied to: config.bak. CryptiKit will then copy any pre-configured servers and accounts over to the newly downloaded config.yml file.</p>
+</blockquote>
+
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Managing Servers</h2></div>
+
+<ul class="task-list">
+<li>To list configured servers:</li>
+</ul>
+
+<pre><code>rake list_servers
+</code></pre>
+
+<ul class="task-list">
+<li>To add a server:</li>
+</ul>
+
+<pre><code>rake add_servers servers=130.211.63.634
+</code></pre>
+
+<ul class="task-list">
+<li>To add multiple servers at the same time:</li>
+</ul>
+
+<pre><code>rake add_servers servers=130.211.63.634,130.211.93.171,130.211.63.63
+</code></pre>
+
+<ul class="task-list">
+<li>To remove a server:</li>
+</ul>
+
+<pre><code>rake remove_servers servers=1 # 1st server
+</code></pre>
+
+<ul class="task-list">
+<li>To remove multiple servers at the same time:</li>
+</ul>
+
+<pre><code>rake remove_servers servers=1,2,7 # 1st, 2nd and 7th server
+</code></pre>
+
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Authentication</h2></div>
+
+<p>Connections to each server require public key ssh authentication. To add your public key to each server, simply run the following command:</p>
+
+<pre><code>rake add_key
+</code></pre>
+
+<blockquote>
+<p>NOTES:</p>
+
+<ol class="task-list">
+<li>You can skip this step, if you have already added your public ssh key to the server via your provider's control panel, or at the time of creation.</li>
+<li>If you do not have a key, then CryptiKit will prompt you to generate one. At which point CryptiKit will proceed with adding the key to each server.</li>
+<li>On Digital Ocean, when logging in for the first time you may be prompted to change your password.</li>
+</ol>
+</blockquote>
+
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Installing Nodes</h2></div>
+
+<p>To install the required dependencies plus the latest version of crypti on all server(s), simply run the following commands:</p>
+
+<pre><code>rake install_deps
+rake install_nodes
+</code></pre>
+
+<p>You can also install both of the above using the following command:</p>
+
+<pre><code>rake install_all
+</code></pre>
+
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Re-installing Nodes</h2></div>
+
+<p>To reinstall the latest version of crypti on all servers whilst keeping the existing blockchain, simply run the following command:</p>
+
+<pre><code>rake reinstall_nodes
+</code></pre>
+
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Forging</h2></div>
+
+<p>Forging is controlled using the commands: <code>rake start_forging</code> and <code>rake stop_forging</code>. When executing these commands, CryptiKit will prompt you for the secret passphrase of each node. Each passphrase is sent over the existing SSH tunnel and then submitted locally to the crypti node using curl.</p>
+
+<blockquote>
+<p>NOTE:
+You will need to register as a delegate before you can start forging. To earn fees, your delegate will need to receive enough votes to be ranked within the top 101 delegates.</p>
+</blockquote>
+
+<p>To start forging, simply run the following command:</p>
+
+<pre><code>rake start_forging
+</code></pre>
+
+<p>When prompted, enter your primary passphrase:</p>
+
+<pre><code>Please enter your primary passphrase: _____
+</code></pre>
+
+<p>Once forging has been successfully started, you will be provided with the option to add the passphrase to the remote config.</p>
+
+<pre><code>INFO Enabling forging...
+INFO =&gt; Enabled.
+INFO Adding account...
+INFO =&gt; Added: 4956977736153893179C.
+INFO Adding passphrase to remote config...
+
+Add passphrase to remote config? _____
+</code></pre>
+
+<blockquote>
+<p>NOTE:
+Adding your passphrases to the config file is less secure. Only do so if you wish to avoid having to start forging again after a node has been restarted.</p>
+</blockquote>
+
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Multiple Delegates</h2></div>
+
+<p>To assign multiple delegates to a node, simply repeat the <code>start_forging</code> command for each account you would like to assign to a node.</p>
+
+<br>
+<hr>
+<br>
+<div class="section-header"><h2>Checking Nodes</h2></div>
+
+<p>To check the status of your nodes, simply run the following command:</p>
+
+<pre><code>rake check_nodes
+</code></pre>
+
+<p>The <code>check_nodes</code> task performs a full inspection of each node. Including: CPU/Memory usage, node uptime, node version, blockchain loading/syncing status, plus each delegate's forging activity and associated account balance(s).</p>
+
+<pre><code>Checking nodes...
+================================================================================
+Node[1]: 111.11.11.111 With 2 Delegate(s)
+================================================================================
+Usage:             CPU: 1.1% | Memory: 18.8%
+Uptime:            0:10:57:0.586
+Version:           0.2.0
+Loaded:            true
+Syncing:           false
+Height:            162573
+--------------------------------------------------------------------------------
+Delegate:          (1) Olivier [Active] 14636030356238523094C
+Productivity:      71.59%
+Rank:              15
+Forging:           true
+Last Forged:       Block -&gt; 17237195879835124361 Amount -&gt; 0.0
+Forged:            320.67081153 0.0 (*)
+Balance:           174644.91081588 0.0 (*)
+Unconfirmed:       174644.91081588 0.0 (*)
+--------------------------------------------------------------------------------
+Delegate:          (2) Karmacoma [Standby] 4956977736153893179C
+Productivity:      0.0%
+Rank:              120
+Forging:           true
+Balance:           13.00000001 0.0 (*)
+Unconfirmed:       13.00000001 0.0 (*)
+</code></pre>
+
+<p>After running the <code>check_nodes</code> task. CryptiKit produces a detailed summary containing: the total nodes checked, report times, total forged, total balances, lowest / highest balances, followed by a breakdown of any nodes/delegates which are either currently loading, syncing, on standby, not forging or using an outdated version of crypti.</p>
+
+<p>Please see the below example:</p>
+
+<pre><code>================================================================================
+Report Summary
+================================================================================
+Nodes Checked:     1 / 1 Configured
+Generated:         2015-04-09 01:17:06 +0100
+Last Generated:    2015-04-09 01:17:06 +0100
+Total Forged:      320.67081153 320.67081153 (+)
+Total Balance:     174657.91081589 174657.91081589 (+)
+Total Unconfirmed: 174657.91081589 174657.91081589 (+)
+Lowest Balance:    13.00000001 -&gt; Node[1](Karmacoma)
+Highest Balance:   174644.91081588 -&gt; Node[1](Olivier)
+--------------------------------------------------------------------------------
+* 1 / 2 delegates are on standby.
+&gt; Affected Delegates: Node[1](Karmacoma)
+--------------------------------------------------------------------------------
+</code></pre>
+
+<p>The report summary warns you when there are potential issues with one your nodes or delegates. Below are some further examples of what might expect to see.</p>
+
+<h4>
+<a id="user-content-loading" class="anchor" href="#loading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Loading</h4>
+
+<p>When one or nodes are loading.</p>
+
+<pre><code>* 2 / 4 nodes are not loaded.
+&gt; Affected Nodes: 1,4
+--------------------------------------------------------------------------------
+</code></pre>
+
+<br>
+
+
+<div class="section-header"><h4>Syncing</h4></div>
+
+<p>When one or nodes are being synchronised.</p>
+
+<pre><code>* 2 / 4 nodes are being synchronised.
+&gt; Affected Nodes: 1,4
+--------------------------------------------------------------------------------
+</code></pre>
+
+<br>
+
+
+<div class="section-header"><h4>On Standby</h4></div>
+
+
+<p>When one or delegates are on standby awaiting further votes.</p>
+
+<pre><code>--------------------------------------------------------------------------------
+* 1 / 2 delegates are on standby.
+&gt; Affected Delegates: Node[1](Karmacoma)
+--------------------------------------------------------------------------------
+</code></pre>
+
+<br>
+
+
+<div class="section-header"><h4>Not Forging</h4></div>
+
+
+<p>When one or nodes are being synchronised.</p>
+
+<pre><code>* 2 / 4 delegates are not forging.
+&gt; Affected Delegates: Node[1](Olivier),Node[1](Karmacoma)
+--------------------------------------------------------------------------------
+</code></pre>
+
+<br>
+
+
+<div class="section-header"><h4>Outdated</h4></div>
+
+
+<p>When one or nodes are using an outdated version of crypti.</p>
+
+<pre><code>* 2 / 4 nodes are outdated.
+&gt; Affected Nodes: 1,4
+
+Version: 0.2.0 is now available.
+
+Please run the folowing command to upgrade them:
+$ rake reinstall_nodes servers=1,4
+--------------------------------------------------------------------------------
+</code></pre>
+
+<br>
+
+
+<div class="section-header"><h4>Errors</h4></div>
+
+
+<p>Any connection / authentication / dependency errors encountered while running the <code>check_nodes</code> task, are automatically recorded by CryptiKit and subsequently reported back to you at the end of the Report Summary.</p>
+
+<pre><code>--------------------------------------------------------------------------------
+* 3 nodes encountered errors and were not checked.
+
+Error Messages:
+* Node[13] =&gt; Connection closed by remote host.
+* Node[14] =&gt; Connection refused.
+* Node[15] =&gt; Authentication failed.
+--------------------------------------------------------------------------------
+</code></pre>
+
+<br>
+
+
+<div class="section-header"><h4>Balance Changes</h4></div>
+
+
+<p>Applies to all balances generated by the check_nodes task: Account and Forged balances. Making it much easier to visually track when one of your nodes has forged some coins or their balances have changed in some other way.</p>
+
+<p>Upon first invocation you will see the following highlighted in blue, which indicates this is the first time you are running the report hence there are no changes:</p>
+
+<pre><code>Balance:           1344.4791879 0.0 (*)
+</code></pre>
+
+<p>When a balance has not changed you will see the following highlighted in yellow:</p>
+
+<pre><code>Balance:           1344.4791879 0.0 (=)
+</code></pre>
+
+<p>When a balance has increased by 100 you will see the following output highlighted in green:</p>
+
+<pre><code>Balance:           1444.4791879 100.0 (+)
+</code></pre>
+
+<p>When a balance has decreased by 100 you will see the following output highlighted in red:</p>
+
+<pre><code>Balance:           1244.4791879 100.0 (-)
+</code></pre>
+
+<br>
+
+<hr>
+    <br>
+<div class="section-header"><h2>Commands</h2></div>
+
+
+<p>Type <code>rake -T</code> to get a complete list of commands.</p>
+
+<pre><code>rake add_key         # Add your public ssh key
+rake add_servers     # Add servers to config
+rake check_nodes     # Check status of crypti nodes
+rake clean_logs      # Clean logs on each server
+rake download_logs   # Download logs from each server
+rake install_all     # Install dependencies and crypti nodes
+rake install_deps    # Install dependencies
+rake install_nodes   # Install crypti nodes
+rake list_servers    # List configured servers
+rake log_into        # Log into servers directly
+rake rebuild_nodes   # Rebuild crypti nodes (using new blockchain only)
+rake reinstall_nodes # Reinstall crypti nodes (keeping blockchain intact)
+rake remove_servers  # Remove servers from config
+rake restart_nodes   # Restart crypti nodes
+rake start_forging   # Start forging on crypti nodes
+rake start_nodes     # Start crypti nodes
+rake stop_forging    # Stop forging on crypti nodes
+rake stop_nodes      # Stop crypti nodes
+rake uninstall_nodes # Uninstall crypti nodes
+rake withdraw_funds  # Withdraw funds from crypti nodes
+</code></pre>
+
+<hr>
+<div class="section-header"><h3>Bash Auto-Completion</h3></div>
+
+<p>Bash auto-completion of commands is enabled on new installations, should you elect to do so.
+Existing installations can be enabled via the following command:</p>
+
+<pre><code>ruby bin/completer.rb --enable
+</code></pre>
+
+<p>When enabled this gives much quicker access to commands via the tab key. For example:</p>
+
+<pre><code>rake che&lt;tab&gt; -&gt; will expand to rake check_nodes
+rake lis&lt;tab&gt; -&gt; will expand to rake list_nodes
+rake reb&lt;tab&gt; -&gt; will expand to rake rebuild_nodes
+</code></pre>
+
+<hr>
+<div class="section-header"><h3>Targeting Servers</h3></div>
+
+<ul class="task-list">
+<li>When no servers are specified, CryptiKit will prompt you to run the task on all servers.
+Answering y(es) will run the command on all servers. Answering n(o) will exit the current task.</li>
+</ul>
+
+<pre><code>rake check_nodes
+</code></pre>
+
+<pre><code>Choosing servers...
+No servers chosen. Run this task on all servers? y
+=&gt; Accepting all servers.
+</code></pre>
+
+<ul class="task-list">
+<li>To run a command on a selection of servers:</li>
+</ul>
+
+<pre><code>rake check_nodes servers=1,2,7 # 1st, 2nd and 7th server
+</code></pre>
+
+<ul class="task-list">
+<li>To run a command on a range of servers:</li>
+</ul>
+
+<pre><code>rake check_nodes servers=1..7 # All servers from 1st to 7th
+</code></pre>
+
+<ul class="task-list">
+<li>To run a command on all servers without being prompted:</li>
+</ul>
+
+<pre><code>rake check_nodes servers=all
+</code></pre>
+
+<hr>
+<div class="section-header"><h3>Withdrawals</h3></div>
+
+<p>The <code>withdraw_funds</code> task allows you to withdraw a specific amount from one of the crypti accounts associated with a given node, to a designated recipient crypti account.</p>
+
+<p>The required steps are as follows:</p>
+
+<ol class="task-list">
+<li>Specify a recipient addres</li>
+<li>Choose an account to withdraw from</li>
+<li>Enter a withdrawal amount</li>
+<li>Enter your passphrase(s)</li>
+</ol>
+
+<hr>
+<div class="section-header"><h3>Receipient Address</h3></div>
+
+<p>Upon executing the <code>withdraw_funds</code> task. CryptiKit will prompt you to enter the recipient address where you would like the funds to go to.</p>
+
+<p>For example:</p>
+
+<pre><code>rake withdraw_funds servers=1..3 # Servers 1 to 3
+
+Withdrawing funds...
+Please enter your recipient crypti address: _____
+</code></pre>
+
+<p>When given an invalid address. CryptiKit will prompt you to try again:</p>
+
+<pre><code>rake withdraw_funds servers=1..3 # Servers 1 to 3
+
+Withdrawing funds...
+Please enter your recipient crypti address: _____
+Invalid crypti address. Please try again...
+</code></pre>
+
+<p>The recipient address can also be specified from the command line:</p>
+
+<pre><code>rake withdraw_funds servers=1..3 recipient=4956977736153893179C # Servers 1 to 3
+</code></pre>
+
+<br>
+<hr>
+<div class="section-header"><h3>Withdrawal Account</h3></div>
+
+<p>As one or more accounts can be associated with any given node. When making a withdrawal, CryptiKit will present you with a list of accounts to choose from for the current node, like so:</p>
+
+<pre><code>--------------------------------------------------------------------------------
+Available accounts on: Node[1]
+--------------------------------------------------------------------------------
+1: 14636030356238523094C
+2: 707434884386221427C
+
+Please choose an account [1-2]: _____
+--------------------------------------------------------------------------------
+</code></pre>
+
+<br>
+
+<div class="section-header"><h4>Withdrawal Amount</h4></div>
+
+<p>Once a valid recipient address has been specified. CryptiKit will present the current balance and maximum possible withdrawal, then prompt you to enter the desired amount to withdraw from the chosen account.</p>
+
+<pre><code>INFO Checking account balance...
+INFO =&gt; Current balance: 184704.90731913 XCR.
+INFO =&gt; Maximum withdrawal: 183785.97743197 XCR.
+
+Enter withdrawal amount: _____
+</code></pre>
+
+<blockquote>
+<p>NOTE: Maximum withdrawals are the total balance less the current network transaction fee.</p>
+</blockquote>
+
+<br>
+
+<div class="section-header"><h4>Passphrase</h4></div>
+
+<p>Before sending any funds, CryptiKit will prompt you to enter your primary passphrase. CryptiKit supports secondary passphrases, so if your account has one, CryptiKit will prompt you for that as well.</p>
+
+<h4>
+<a id="user-content-successful-transactions" class="anchor" href="#successful-transactions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Successful Transactions</h4>
+
+<p>For each successful transaction, CryptiKit will output the fee, transaction id and total amount sent.</p>
+
+<pre><code>INFO Withdrawing 1.0 XCR...
+INFO From: 14636030356238523094C to: 4956977736153893179C...
+INFO ~&gt; Fee: 0.005
+INFO ~&gt; Transaction id: 2052732297350569719
+INFO ~&gt; Total withdrawn: 1.0
+</code></pre>
+
+<br>
+
+<div class="section-header"><h4>Error Handling</h4></div>
+
+<p>If any errors are encountered during a transaction. For example an invalid passphrase, CryptiKit will handle the error and move onto the next selected server.</p>
+
+<pre><code>INFO Withdrawing 1.0 XCR...
+INFO From: 14636030356238523094C to: 4956977736153893179C...
+ERROR =&gt; Transaction failed.
+ERROR =&gt; Error: Provide secret key.
+</code></pre>
+
+<br>
+<hr>
+    <br>
+<div class="section-header"><h3>Bugs</h3></div>
+
+<p>I have tested these commands on: Digital Ocean, Kyup, Vultr and Wable using various CentOS/Debian/Fedora/Ubuntu based containers. Please let me know if you encounter any issues: <a href="mailto:karmacrypto@gmail.com">karmacrypto@gmail.com</a>.</p>
+
+<br>
+<hr>
+    <br>
+<div class="section-header"><h3>Changelog</h3></div>
+
+<p>See: <a href="https://github.com/karmacoma/cryptikit/blob/master/Changelog.md">https://github.com/karmacoma/cryptikit/blob/master/Changelog.md</a></p>
+
+<h3>
+<a id="user-content-todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo</h3>
+
+<ul class="task-list">
+<li>Write test suite, fix bugs</li>
+</ul>
+
+<br>
+<hr>
+    <br>
+<div class="section-header"><h3>Donations</h3></div>
+
+<p>Welcome at the following address: 4956977736153893179C.</p>
+</div>
+   </div><!-- /#wrapper -->
+ </div>
+
+     <footer class="footer">
+       <p>CryptiKit - All Rights Reserved </p>
+     </footer>
+
+         <script type="text/javascript">
+      var _gauges = _gauges || [];
+      (function() {
+        var t   = document.createElement('script');
+        t.type  = 'text/javascript';
+        t.async = true;
+        t.id    = 'gauges-tracker';
+        t.setAttribute('data-site-id', '4f8c30caf5a1f5684a00002e');
+        t.src = '../secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      })();
+    </script>
+
+     <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','../www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-3769691-41', 'github.com');
+      ga('send', 'pageview');
+
+    </script>
+
+   </body>
+ </html>
+
+ 
